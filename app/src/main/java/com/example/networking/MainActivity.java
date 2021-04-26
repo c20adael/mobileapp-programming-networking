@@ -3,14 +3,15 @@ package com.example.networking;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private ArrayList<Mountain> mountainArrayList=new ArrayList<>();
-    public ArrayAdapter<Mountain> adapter;
+    private ArrayAdapter<Mountain> adapter;
 
 
     @Override
@@ -37,8 +38,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         adapter=new ArrayAdapter<Mountain>(this,R.layout.test,R.id.textview2,mountainArrayList);
-        ListView hej=findViewById(R.id.ListView);
+        ListView hej=findViewById(R.id.clearlynotalistview);
         hej.setAdapter(adapter);
+        hej.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), mountainArrayList.get(position).info(), Toast.LENGTH_LONG).show();
+
+            }
+        });
 
         Button button = findViewById(R.id.button78);
         button.setOnClickListener(new View.OnClickListener() {
@@ -96,30 +104,34 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
 
+
+
+
+
         @Override
         protected void onPostExecute(String json) {
-            try{
+            try {
                 mountainArrayList.clear();
                 JSONArray jsonArray = new JSONArray(json);
-                for (int i = 0; i < jsonArray.length(); i++){
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                String name = jsonObject.getString("name");
-                String location = jsonObject.getString("location");
-                int height = jsonObject.getInt("size");
-                Mountain mountain = new Mountain(name,location,height);
-                mountainArrayList.add(mountain);
+                    String name = jsonObject.getString("name");
+                    String location = jsonObject.getString("location");
+                    int height = jsonObject.getInt("size");
+
+                    Mountain mountain = new Mountain(name, location, height);
+                    mountainArrayList.add(mountain);
                 }
                 adapter.notifyDataSetChanged();
 
-
-            } catch (JSONException e) {
-                Log.d("JSONbajs", json+e);
             }
 
-
-
+            catch (JSONException e) {
+                Log.d("JSON", "Could not parse: " + json + "\n due to expectation:" + e);
+            }
         }
+
     }
 }
 
