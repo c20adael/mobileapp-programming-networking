@@ -31,7 +31,7 @@
         android:id="@+id/button78"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="faak of"
+        android:text="Knapp 69 xoxo"
         app:layout_constraintBottom_toTopOf="@+id/clearlynotalistview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
