@@ -2,8 +2,15 @@ package com.example.networking;
 
 public class Mountain {
     private String name;
-    private String platthet;
-    private int filmapperanses;
+    private String location;
+    private int height;
+
+
+ public Mountain (String n, String l, int h) {
+     name=n;
+     location=l;
+     height=h;
+ }
 
 
 }
